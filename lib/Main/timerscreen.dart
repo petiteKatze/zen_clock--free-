@@ -15,6 +15,9 @@ bool _dot = true;
 bool _started = false;
 bool _isAudioPlayingStartedTime = false;
 AudioPlayer _playerTime = AudioPlayer();
+bool _sceneEnabled = false;
+const _backgrounds = ["back1", "back2"];
+int _backIndex = 0;
 
 class TimerPage extends StatefulWidget {
   const TimerPage({super.key});
@@ -30,6 +33,9 @@ class _TimerPageState extends State<TimerPage> {
 
   @override
   void initState() {
+    setState(() {
+      _backIndex = _backgrounds.length;
+    });
     _isAudioPlayingStartedTime = false;
     _playerTime = AudioPlayer();
     _dot = true;
@@ -119,19 +125,127 @@ class _TimerPageState extends State<TimerPage> {
             }
           }
         },
+        onDoubleTap: () {
+          if (brightness == Brightness.dark) {
+            sceneChanger();
+          } else {
+            setState(() {
+              _sceneEnabled = false;
+              _backIndex = _backgrounds.length;
+            });
+            showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                      contentTextStyle: TextStyle(
+                        fontSize: 15,
+                        color: brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      titleTextStyle: TextStyle(
+                        fontSize: 22,
+                        color: brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      actionsAlignment: MainAxisAlignment.center,
+                      backgroundColor: brightness == Brightness.dark
+                          ? Colors.black
+                          : Colors.white,
+                      title: const Text("Change to dark theme"),
+                      content: SizedBox(
+                        width: width / 3,
+                        child: const Text(
+                            "To change backrgound scene, change your device theme to dark theme"),
+                      ),
+                      actions: [
+                        IconsOutlineButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          text: "Close",
+                          iconData: Icons.close,
+                        )
+                      ],
+                    ));
+          }
+        },
+        onLongPress: () {
+          if (brightness == Brightness.dark) {
+            sceneChanger();
+          } else {
+            setState(() {
+              _sceneEnabled = false;
+              _backIndex = _backgrounds.length;
+            });
+            showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                      contentTextStyle: TextStyle(
+                        fontSize: 15,
+                        color: brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      titleTextStyle: TextStyle(
+                        fontSize: 22,
+                        color: brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                      actionsAlignment: MainAxisAlignment.center,
+                      backgroundColor: brightness == Brightness.dark
+                          ? Colors.black
+                          : Colors.white,
+                      title: const Text("Change to dark theme"),
+                      content: SizedBox(
+                        width: width / 3,
+                        child: const Text(
+                            "To change backrgound scene, change your device theme to dark theme"),
+                      ),
+                      actions: [
+                        IconsOutlineButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          text: "Close",
+                          iconData: Icons.close,
+                        )
+                      ],
+                    ));
+          }
+        },
         child: Stack(
           children: [
+            _sceneEnabled
+                ? Image.asset(
+                    width: width,
+                    "lib/Assets/Backgrounds/${_backgrounds[_backIndex]}.jpg",
+                    fit: BoxFit.cover)
+                : const SizedBox(),
+            _sceneEnabled
+                ? Container(
+                    color: const Color.fromARGB(87, 0, 0, 0),
+                    width: width,
+                    height: MediaQuery.of(context).size.height,
+                  )
+                : const SizedBox(),
             Positioned(
                 top: width / 20,
                 left: width / 20,
-                child: Text(
-                  "Pomodoro",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Pomodoro",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                      ),
+                    ),
+                  ],
                 )),
             _started
                 ? Positioned(
@@ -175,7 +289,11 @@ class _TimerPageState extends State<TimerPage> {
                 : const SizedBox(),
             Center(
               child: MainClock(
-                  tim: _tim, dot: _dot, width: width, brightness: brightness),
+                  tim: _tim,
+                  dot: _dot,
+                  width: width,
+                  brightness: brightness,
+                  scene: _sceneEnabled),
             ),
             (!_started)
                 ? Positioned(
@@ -280,7 +398,29 @@ class _TimerPageState extends State<TimerPage> {
   start() async {
     final player = AudioPlayer();
     await player.setAsset("lib/Assets/Audio/startTimer.mp3");
+    player.setVolume(0.5);
     await player.play();
     await player.dispose();
+  }
+
+  sceneChanger() {
+    final len = _backgrounds.length;
+    if (!_sceneEnabled) {
+      setState(() {
+        _backIndex = 0;
+        _sceneEnabled = true;
+      });
+    } else {
+      if (_backIndex == len - 1) {
+        setState(() {
+          _sceneEnabled = false;
+          _backIndex = len;
+        });
+      } else {
+        setState(() {
+          _backIndex++;
+        });
+      }
+    }
   }
 }

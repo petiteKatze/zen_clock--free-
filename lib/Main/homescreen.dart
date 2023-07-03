@@ -15,7 +15,10 @@ bool _dot = false;
 List<String> tim = ["0", "0", "0", "0", "0", "0"];
 List<String> date = ["Zen", "Clock"];
 bool _isAudioPlayingStarted = false;
+bool _sceneHere = false;
 AudioPlayer _player = AudioPlayer();
+const _backgrounds = ["back1", "back2"];
+int _backIndex = 0;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +31,9 @@ class _HomePageState extends State<HomePage> {
   late Timer _timerone;
   @override
   void initState() {
+    setState(() {
+      _backIndex = _backgrounds.length;
+    });
     _isAudioPlayingStarted = false;
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     _player = AudioPlayer();
@@ -66,6 +72,96 @@ class _HomePageState extends State<HomePage> {
     final width = MediaQuery.of(context).size.width;
     final Brightness brightness = Theme.of(context).brightness;
     return GestureDetector(
+      onDoubleTap: () {
+        if (brightness == Brightness.dark) {
+          sceneChanger();
+        } else {
+          setState(() {
+            _sceneHere = false;
+            _backIndex = _backgrounds.length;
+          });
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    contentTextStyle: TextStyle(
+                      fontSize: 15,
+                      color: brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                    titleTextStyle: TextStyle(
+                      fontSize: 22,
+                      color: brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                    actionsAlignment: MainAxisAlignment.center,
+                    backgroundColor: brightness == Brightness.dark
+                        ? Colors.black
+                        : Colors.white,
+                    title: const Text("Change to dark theme"),
+                    content: SizedBox(
+                      width: width / 3,
+                      child: const Text(
+                          "To change backrgound scene, change your device theme to dark theme"),
+                    ),
+                    actions: [
+                      IconsOutlineButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: "Close",
+                        iconData: Icons.close,
+                      )
+                    ],
+                  ));
+        }
+      },
+      onLongPress: () {
+        if (brightness == Brightness.dark) {
+          sceneChanger();
+        } else {
+          setState(() {
+            _sceneHere = false;
+            _backIndex = _backgrounds.length;
+          });
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    contentTextStyle: TextStyle(
+                      fontSize: 15,
+                      color: brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                    titleTextStyle: TextStyle(
+                      fontSize: 22,
+                      color: brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                    actionsAlignment: MainAxisAlignment.center,
+                    backgroundColor: brightness == Brightness.dark
+                        ? Colors.black
+                        : Colors.white,
+                    title: const Text("Change to dark theme"),
+                    content: SizedBox(
+                      width: width / 3,
+                      child: const Text(
+                          "To change backrgound scene, change your device theme to dark theme"),
+                    ),
+                    actions: [
+                      IconsOutlineButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: "Close",
+                        iconData: Icons.close,
+                      )
+                    ],
+                  ));
+        }
+      },
       onTap: () {
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
       },
@@ -97,9 +193,23 @@ class _HomePageState extends State<HomePage> {
           top: false,
           bottom: true,
           child: Stack(children: [
+            _sceneHere
+                ? Image.asset(
+                    width: width,
+                    "lib/Assets/Backgrounds/${_backgrounds[_backIndex]}.jpg",
+                    fit: BoxFit.cover)
+                : const SizedBox(),
+            _sceneHere
+                ? Container(
+                    color: const Color.fromARGB(87, 0, 0, 0),
+                    width: width,
+                    height: MediaQuery.of(context).size.height,
+                  )
+                : const SizedBox(),
             Center(
                 child: MainClock(
               tim: tim,
+              scene: _sceneHere,
               dot: _dot,
               width: width,
               brightness: brightness,
@@ -165,5 +275,26 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  sceneChanger() {
+    final len = _backgrounds.length;
+    if (!_sceneHere) {
+      setState(() {
+        _backIndex = 0;
+        _sceneHere = true;
+      });
+    } else {
+      if (_backIndex == len - 1) {
+        setState(() {
+          _sceneHere = false;
+          _backIndex = len;
+        });
+      } else {
+        setState(() {
+          _backIndex++;
+        });
+      }
+    }
   }
 }

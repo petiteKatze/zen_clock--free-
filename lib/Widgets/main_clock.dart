@@ -6,11 +6,13 @@ class MainClock extends StatelessWidget {
   final bool dot;
   final List<String> tim;
   final Brightness brightness;
+  final bool scene;
   const MainClock(
       {required this.tim,
       required this.dot,
       required this.width,
       required this.brightness,
+      required this.scene,
       super.key});
 
   @override
@@ -21,16 +23,46 @@ class MainClock extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             key: const ValueKey("Main display clock"),
             children: [
-              SvgPicture.asset(
-                'lib/Assets/Numbers/${tim[0]}.svg',
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/Numbers/${tim[0]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color(0xFF000000),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(
-                "lib/Assets/Numbers/${tim[1]}.svg",
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/Numbers/${tim[1]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color(0xFF000000),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const SizedBox(
                 width: 5,
@@ -45,17 +77,47 @@ class MainClock extends StatelessWidget {
               const SizedBox(
                 width: 5,
               ),
-              SvgPicture.asset(
-                "lib/Assets/Numbers/${tim[2]}.svg",
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/Numbers/${tim[2]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color(0xFF000000),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(
-                "lib/Assets/Numbers/${tim[3]}.svg",
-                width: width / 5,
-              )
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/Numbers/${tim[3]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color(0xFF000000),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
             ],
           )
         : Row(
@@ -63,16 +125,46 @@ class MainClock extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             key: const ValueKey("Main display clock light mode"),
             children: [
-              SvgPicture.asset(
-                'lib/Assets/NumbersLight/${tim[0]}.svg',
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/NumbersLight/${tim[0]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(
-                "lib/Assets/NumbersLight/${tim[1]}.svg",
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/NumbersLight/${tim[1]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const SizedBox(
                 width: 5,
@@ -87,16 +179,46 @@ class MainClock extends StatelessWidget {
               const SizedBox(
                 width: 5,
               ),
-              SvgPicture.asset(
-                "lib/Assets/NumbersLight/${tim[2]}.svg",
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/NumbersLight/${tim[2]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               const SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(
-                "lib/Assets/NumbersLight/${tim[3]}.svg",
-                width: width / 5,
+              Stack(
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'lib/Assets/NumbersLight/${tim[3]}.svg',
+                      width: width / 5,
+                    ),
+                  ),
+                  !scene
+                      ? Center(
+                          child: Container(
+                            height: 5,
+                            width: width / 5,
+                            color: const Color(0xFFFFFFFF),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               )
             ],
           );

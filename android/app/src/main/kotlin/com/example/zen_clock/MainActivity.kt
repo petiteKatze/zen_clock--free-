@@ -1,4 +1,4 @@
-package com.example.zen_clock
+package com.diptanshumahish.zen_clock
 
 import io.flutter.embedding.android.FlutterActivity
 

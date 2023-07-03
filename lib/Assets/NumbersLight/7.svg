@@ -1,5 +1,4 @@
 <svg width="200" height="269" viewBox="0 0 200 269" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="200" height="269" rx="6" fill="#EDEDF3"/>
+<rect width="200" height="269" rx="6" fill="black" fill-opacity="0.05"/>
 <path d="M67.24 212L131.04 72.96L133.68 80H43.48V58H151.06L154.14 73.18L92.76 212H67.24Z" fill="black"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M200 134H0V129H200V134Z" fill="white"/>
 </svg>
